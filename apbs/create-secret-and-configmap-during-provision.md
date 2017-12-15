@@ -4,7 +4,7 @@ This document outlines a proposal to create an additional configmap for services
 
 ## Terms
 
-- Mobile Client (a mobile device in the public domain running a developers application)
+- Mobile Client (a mobile device running a developers application)
 - APB (ansible playbook bundle)
 
 ## Problem Description
@@ -16,7 +16,7 @@ Our current approach is to create a secret during the provision of a new mobile 
 When provisioning a new service instance, we should create two configuration resources:
 
 1) A secret containing private information such as usernames and passwords or anything that we do not want to be exposed to the mobile client.
-2) A configmap containing all of the required information needed for a mobile client to access the service.
+2) A configmap containing all of the required information needed for a mobile client to use the service.
 
 Note it may be neccessary to duplicate some information across each of these resources (ie the URI of the service for example).
 
