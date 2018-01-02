@@ -58,7 +58,7 @@ The Metrics Service will consist of:
 * Prometheus - for metrics gathering
 * Grafana - for metrics visualisation
 
-Promtehues & Grafana will each have a Persistent Volume for storing gathered metrics and visualisation settings respectively.
+Prometheus & Grafana will each have a Persistent Volume for storing gathered metrics and visualisation settings respectively.
 
 Grafana will be configured to have Proemtheus available as a 'Data Source' by default. Data Sources will be stored in a ConfigMap that gets mounted into the Grafana container. e.g.
 
@@ -126,7 +126,7 @@ metadata:
     serviceaccounts.openshift.io/oauth-redirectreference.prometheus: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"prometheus"}}'
 ```
 
-Both OAuth Proxies, Grafana & Prometheus will all run in the same Pod, but in separate containers. This is necessary so Grafana can talk directly to Promethues via localhost, bypassing the OAuth Proxy when accessing it as a Data Source. Also, the OAuth Proxies can proxy directly on localhost to Grafana & Prometheus without having to expose a Service, making the unprotected services potentially accessible outside the namespace.
+Both OAuth Proxies, Grafana & Prometheus will all run in the same Pod, but in separate containers. This is necessary so Grafana can talk directly to Prometheus via localhost, bypassing the OAuth Proxy when accessing it as a Data Source. Also, the OAuth Proxies can proxy directly on localhost to Grafana & Prometheus without having to expose a Service, making the unprotected services potentially accessible outside the namespace.
 
 ### Links
 
