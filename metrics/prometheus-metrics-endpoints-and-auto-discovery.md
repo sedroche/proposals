@@ -6,11 +6,11 @@ This document outlines a proposal for gathering metrics from Mobile Services run
 
 ### Primary Goals
 
-* Provide a mechanism for Mobile Developers to gather, view & query metrics from supported Mobile Services.
+* Provide a mechanism for Developers to gather, view & query metrics from supported Mobile Services.
 
 ### Secondary Goals
 
-* Allow Mobile Developers to leverage the same mechanism for any other/non-mobile/custom services.
+* Allow Developers to leverage the same mechanism for any other/non-mobile/custom services.
 
 ### Non Goals
 * Provide an Analytics service
