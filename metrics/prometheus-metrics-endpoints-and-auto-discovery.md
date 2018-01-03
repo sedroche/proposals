@@ -126,7 +126,14 @@ metadata:
     serviceaccounts.openshift.io/oauth-redirectreference.prometheus: '{"kind":"OAuthRedirectReference","apiVersion":"v1","reference":{"kind":"Route","name":"prometheus"}}'
 ```
 
-Both OAuth Proxies, Grafana & Prometheus will all run in the same Pod, but in separate containers. This is necessary so Grafana can talk directly to Prometheus via localhost, bypassing the OAuth Proxy when accessing it as a Data Source. Also, the OAuth Proxies can proxy directly on localhost to Grafana & Prometheus without having to expose a Service, making the unprotected services potentially accessible outside the namespace.
+The Prometheus Data Source in Grafana will configured to bypass the OAuth Proxy. This can be achieved via an internal Service that proxies directly to the Prometheus API port. The exposed Route to Prometheus for end-user access will be use a Service that *does* go through the OAuth Proxy.
+This approach is dependant on projects having isolated networks so that the Prometheus internal Service cannot be accessed from other projects.
+
+### Scaling
+
+The Grafana Deployment will be configured to allow scaling of replicas. Each Grafana replica will use a shared Read-Write-Many (RWX) Persistent Volume.
+
+Prometheus will *not* be configured for scaling.
 
 ### Links
 
