@@ -3,18 +3,28 @@
 == Summary
 Everyone should be able to contribute to aerogear.org docs with ease and effectiveness, regardless of the scope of their proposed change.
 At the moment, changes are difficult to author and manage, and we hope to extend the site to include mobile.next and feedhenry material.
-This proposal includes using asciibinder and a modular approach to documentation.
+This proposal includes using asciibinder and a modular approach to documentation to help us deliver high quality documentation to enable the community use AeroGear software.
+
+== Current Situation
+
+* Multiple navigation paths - there are many ways to navigate to a document, and not all give a positive experience, eg https://aerogear.org/docs/
+* Authoring requires rvm for preview, reducing contributions
+* Confusing terminology - modules, 'getting started', platforms
+* Asciidoc is used, but not a standard way
+* Stale content
+* Not much versioning - "As a developer I want to view the docs for a component I downloaded last year"
 
 == Asciibinder
 
-Asciibinder is used by some OSS projects for example:
+link:http://asciibinder.org/[Asciibinder] is used by some OSS projects for example:
+
 * https://docs.openshift.org/latest/welcome/index.html
 * https://docs.fedoraproject.org/
 * http://manageiq.org/docs/
 
-It uses asciidoc formatting, which is required for RH official documentation, but there is a PR to include markdown support.
+It uses asciidoc formatting, which is required for RH official documentation. Note, there is a PR to include markdown support.
 
-AsciiBinder is for documenting versioned, interrelated projects, producing different distributions of the docs as required. 
+"AsciiBinder is for documenting versioned, interrelated projects, producing different distributions of the docs as required."
 
 == Modular documentation
 
@@ -25,7 +35,11 @@ Aerogear will consist of many components that have version specific documentatio
 . Documentation for a versioned feature is authored in it's own repo. Note that this could be a code repo, or a wiki repo.
 . Documentation for all features is gathered as late as possible for publication on aerogear.org.
 
-For example, consider the following 'feature' doc repos:
+== Demo
+
+This demo uses github and circleci, fork and build as required. 
+
+Consider the following 'feature' doc repos:
 
 * https://github.com/finp/sync-docs
 * https://github.com/finp/push-docs
@@ -33,7 +47,11 @@ For example, consider the following 'feature' doc repos:
 
 Each release branch be rendered using asciibinder, for example, see link:https://5-114535426-gh.circle-artifacts.com/0/home/circleci/docs/_preview/digger/latest/installation/digger-install-intro.html[Digger docs]. 
 
-To pull the features together, I've included a `package.json` file in each repo, and then made the master branch of those repos a dependency to render a more complete link:https://2-106556484-gh.circle-artifacts.com/0/home/circleci/docs/_preview/aerogear/latest/admin/about-admin-guide.html#[doc set]
+image::digger.png[digger docs]
+
+To pull the features together, I've included a `package.json` file in each repo, and then made the master branch of those repos a dependency to render a more complete link:https://2-106556484-gh.circle-artifacts.com/0/home/circleci/docs/_preview/aerogear/latest/admin/about-admin-guide.html#[doc set], including sync and push docs.
+
+image::aerogear.png[]
 
 NOTE: This requires some symlinks and concating topic files, see https://github.com/finp/shiftgear.
 
@@ -42,6 +60,7 @@ The advantages I see for this approach is:
 * Mix and match component documentation
 * Mix and match versions of component documenation
 * Contributors write docs in the context of the feature, not on a monolithic website repo
+* Tech writers can work with the development process 
 
 Alternatives approaches include
 
