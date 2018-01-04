@@ -1,0 +1,51 @@
+= Aerogear.org Website Renewal
+
+== Summary
+Everyone should be able to contribute to aerogear.org docs with ease and effectiveness, regardless of the scope of their proposed change.
+At the moment, changes are difficult to author and manage, and we hope to extend the site to include mobile.next and feedhenry material.
+This proposal includes using asciibinder and a modular approach to documentation.
+
+== Asciibinder
+
+Asciibinder is used by some OSS projects for example:
+* https://docs.openshift.org/latest/welcome/index.html
+* https://docs.fedoraproject.org/
+* http://manageiq.org/docs/
+
+It uses asciidoc formatting, which is required for RH official documentation, but there is a PR to include markdown support.
+
+AsciiBinder is for documenting versioned, interrelated projects, producing different distributions of the docs as required. 
+
+== Modular documentation
+
+NOTE: This should not be confused with link:https://redhat-documentation.github.io/modular-docs/[RH Modular Docs initiative].
+
+Aerogear will consist of many components that have version specific documentation. Aerogear.org is where all that documentation will be published, however we want to make the process of contributing and publishing as easy as possible by:
+
+. Documentation for a versioned feature is authored in it's own repo. Note that this could be a code repo, or a wiki repo.
+. Documentation for all features is gathered as late as possible for publication on aerogear.org.
+
+For example, consider the following 'feature' doc repos:
+
+* https://github.com/finp/sync-docs
+* https://github.com/finp/push-docs
+* https://github.com/finp/digger-docs
+
+Each release branch be rendered using asciibinder, for example, see link:https://5-114535426-gh.circle-artifacts.com/0/home/circleci/docs/_preview/digger/latest/installation/digger-install-intro.html[Digger docs]. 
+
+To pull the features together, I've included a `package.json` file in each repo, and then made the master branch of those repos a dependency to render a more complete link:https://2-106556484-gh.circle-artifacts.com/0/home/circleci/docs/_preview/aerogear/latest/admin/about-admin-guide.html#[doc set]
+
+NOTE: This requires some symlinks and concating topic files, see https://github.com/finp/shiftgear.
+
+The advantages I see for this approach is:
+
+* Mix and match component documentation
+* Mix and match versions of component documenation
+* Contributors write docs in the context of the feature, not on a monolithic website repo
+
+Alternatives approaches include
+
+* link:http://idratherbewriting.com/documentation-theme-jekyll/[Keep using Jekyll]
+* link:https://appdev.openshift.io/docs/nodejs-runtime.html[Simple asciidoc]
+
+
