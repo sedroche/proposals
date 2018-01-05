@@ -13,7 +13,7 @@ The key goal of the mobile cli, is to provide a simple and intuitive interface t
 
 ## Output
 
-As this is a CLI, it is important that it remains a programable grep and pipe friendly interface to allow scripting and execution from external programs. This generally means it should write its output to stdOut. Using a format like JSON allows it to be piped to tools such as [jq](https://stedolan.github.io/jq/) for further use.
+As this is a CLI, it is important that it remains a programmable grep and pipe friendly interface to allow scripting and execution from external programs. This generally means it should write its output to stdOut and its errors to stdErr. Using a format like JSON allows it to be piped to tools such as [jq](https://stedolan.github.io/jq/) for further use.
 
 However it should default to presenting its output in a human readable format such as a table structure:
 ```
@@ -32,7 +32,7 @@ However it should default to presenting its output in a human readable format su
 ```
 mobile get serviceinstances fh-sync-server --output=json
 ```
-In this example we have  ```servicesinstances``` and ```fh-sync-server``` that are required but the ```--output``` flag is optional to change the default behaviour for how the output is formatted.
+In this example we have  ```servicesinstances``` and ```fh-sync-server``` that are required but the ```--output``` flag is optional to change the default behaviour for how the output is formatted. As much as possible we want to align with the kubectl practices here to keep it a familiar interface.
 
 ## Errors
 
