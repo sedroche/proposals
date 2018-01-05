@@ -45,7 +45,7 @@ Consider the following 'feature' doc repos:
 * https://github.com/finp/push-docs
 * https://github.com/finp/digger-docs
 
-Each release branch be rendered using asciibinder, for example, see link:https://5-114535426-gh.circle-artifacts.com/0/home/circleci/docs/_preview/digger/latest/installation/digger-install-intro.html[Digger docs]. 
+Each release branch is rendered using asciibinder, for example, see link:https://5-114535426-gh.circle-artifacts.com/0/home/circleci/docs/_preview/digger/latest/installation/digger-install-intro.html[Digger docs]. 
 
 image::digger.png[digger docs]
 
@@ -53,7 +53,39 @@ To pull the features together, I've included a `package.json` file in each repo,
 
 image::aerogear.png[]
 
-NOTE: This requires some symlinks and concating topic files, see https://github.com/finp/shiftgear.
+[NOTE] 
+====
+This requires some symlinks and concating topic files, see https://github.com/finp/shiftgear.
+
+Note the mechanism for automatic assembly is just `npm install`:
+----
+"dependencies": {
+   "digger-docs": "git@github.com:finp/digger-docs.git#master",
+   "push-docs": "git@github.com:finp/push-docs.git#master",
+   "sync-docs": "git@github.com:finp/sync-docs.git#master"
+   }
+----
+====
+
+== Search
+
+A trivial approach to making AeroGear docs discoverable would be to link:https://support.google.com/customsearch/answer/2630963[create a custom search engine] targeting a url pattern such as aerogear.org/docs
+
+This could then be extended to provide powerful search if we decide to publish particular doc sets. For example, npm could be used to publish all the branches for a component to a directory using `_distro.yml`, combined with a `package.json` such as:
+
+----
+"dependencies": {
+   "sync-docs-latest": "git@github.com:finp/sync-docs.git#master"
+   },
+   "sync-docs-1.0.0": "git@github.com:finp/sync-docs.git#1.0.0"
+   },
+   "sync-docs-1.2.0": "git@github.com:finp/sync-docs.git#1.1.0"
+   }
+----   
+
+This would publish a doc set combined with a custom engine that would allow users to search all versions of sync docs. 
+
+== Conclusion
 
 The advantages I see for this approach is:
 
@@ -62,9 +94,11 @@ The advantages I see for this approach is:
 * Contributors write docs in the context of the feature, not on a monolithic website repo
 * Tech writers can work with the development process 
 
+NOTE: Typically, tech writers rail against feature documentation, wanting instead to document user stories. When the word 'feature' is mentioned above, it is in the context of a major user story, eg sync and push. 
+
 Alternatives approaches include
 
-* link:http://idratherbewriting.com/documentation-theme-jekyll/[Keep using Jekyll]
-* link:https://appdev.openshift.io/docs/nodejs-runtime.html[Simple asciidoc]
+* link:http://idratherbewriting.com/documentation-theme-jekyll/[Keep using Jekyll] but with a more docs-centric approach
+* link:https://appdev.openshift.io/docs/nodejs-runtime.html[Simple asciidoc] user story approach
 
 
