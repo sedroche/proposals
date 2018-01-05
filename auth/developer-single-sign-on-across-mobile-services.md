@@ -1,6 +1,6 @@
 # Abstract
 
-This document outlines a proposal for Single Sign On across Mobile Services & Mobile Enabled Services provisioned on OpenShift. This proposal is *not* intended as a feature for end users of Mobile Apps. It *is* intended as a development time feature for Mobile developers.
+This document outlines a proposal for single sign-on across Mobile Services & Mobile Enabled Services provisioned on OpenShift. This proposal is *not* intended as a feature for end users of Mobile Apps. It *is* intended as a development time feature for Mobile developers.
 
 ## Terms
 
@@ -26,7 +26,7 @@ Additionaly, a service that has no auth mechanism, e.g. Prometheus, will need to
 
 ## Proposed Solution
 
-### OpenShift as the Single Sign On Provider
+### OpenShift as the Single Sign-On Provider
 
 All Services will be running on OpenShift, or 'ordered' from the OpenShift Catalog. OpenShift is the only constant between the Developer and the Services. The Developer will need to be signed in to OpenShift. Leveraging this fact and having OpenShift be the single auth provider for all Services will address the main points in the problem description.
 
