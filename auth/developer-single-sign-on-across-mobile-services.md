@@ -9,7 +9,7 @@ This document outlines a proposal for single sign-on across Mobile Services & Mo
 
 ## Problem Description
 
-As a developer builds up their Project by provisioning different services, they will likely need to setup or configure ascpects of those services. For example, if a developer provisions the Push Notifications service, they will need to configure Push credentials for Mobile Apps. Some services may also provide additional info or dasboards. Accessing these dashboards & performing setup or configuration will likely require signing into those services via some auth mechanism.
+As a developer builds up their Project by provisioning different services, they will likely need to setup or configure aspects of those services. For example, if a developer provisions the Push Notifications service, they will need to configure Push credentials for Mobile Apps. Some services may also provide additional info or dashboards. Accessing these dashboards & performing setup or configuration will likely require signing into those services via some auth mechanism.
 
 Each service will have 1 or more of the following:
 
@@ -40,7 +40,7 @@ Choosing how to integrate a Service with OpenShift OAuth will depend on what the
 
 #### Option 1: Configure OAuth in the Service
 
-If a Service has the ability to an OAuth provider, use it. For example, in Keycloak it is possible to use 'Identity Brokering' to defer to OpenShift Auth for who can administer that Keycloak instance. See this [Keycloak Identity Brokering Blog Post](https://developers.redhat.com/blog/2017/12/06/keycloak-identity-brokering-openshift/) for details.
+If a Service has the ability to integrate with an OAuth provider, use it. For example, in Keycloak it is possible to use 'Identity Brokering' to defer to OpenShift Auth for who can administer that Keycloak instance. See this [Keycloak Identity Brokering Blog Post](https://developers.redhat.com/blog/2017/12/06/keycloak-identity-brokering-openshift/) for details.
 
 However, with Keycloak this method is limited to only automatically setting up the initial permissions of *all* users who can successfully authenticate. There is no permissions mapping between OpenShift roles & Keycloak administration roles. Additionally, *any* OpenShift user will be able to sign in to Keycloak. Manual configuration is required to only allow certain users access and limit their roles.
 
