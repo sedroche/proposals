@@ -94,21 +94,17 @@ org.aerogear.metrics/ssl_endpoint: /rest/metrics
 
 ### Default Visualisations
 
-Grafana will be configured 'out of the box' with 'Dashboards' for specific Mobile Services. Which services will be determined on a case by case basis. These Dashboards will be tailored to the needs of a developer using that service. For example, the Data Sync Dashboard will show queue metrics.
+Grafana will be made available as part of provisioning Metrics. Developers will be free to add their own Dashboards.
 
-A Default Dashboard for Prometheus metrics will be made available. This will show, where possible, metrics that are generic across all auto-discovered services e.g. CPU/Memory.
-
-Developers will be free to add their own Dashboards, or modify/remove any default Dashboards.
-
-Default dashboards will be stored in a ConfigMap that gets mounted into the Grafana container
-e.g. https://github.com/aerogearcatalog/prometheus-apb/blob/ee86cfc67caaeaabcf7e7bc214c3a6dc6940c333/roles/provision-prometheus-apb/tasks/main.yml#L30-L33
-
-The dashboards will be picked up in Grafana by setting the path to the mounted ConfigMap resource. e.g.
+It is possible to store Dashboards in a ConfigMap that gets mounted into the Grafana container
+e.g. https://github.com/aerogearcatalog/prometheus-apb/blob/ee86cfc67caaeaabcf7e7bc214c3a6dc6940c333/roles/provision-prometheus-apb/tasks/main.yml#L30-L33. These dashboards will be picked up in Grafana by setting the path to the mounted ConfigMap resource. e.g.
 
 ```ini
 [paths]
 datasources = /etc/grafana-datasources
 ```
+
+*NOTE:* This approach for making default dashboards available will be used until such a time as a more automated discovery of dashboards is determined. For example, is it possible to store the dashboard defininition with the Service that has metrics available e.g. Keycloak, and then make it show up in Grafana.
 
 ### Auth
 
