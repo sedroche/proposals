@@ -1,11 +1,13 @@
-= Aerogear.org Website Renewal
+= Aerogear.org Documentation
 
-== Summary
+== Introduction
+TLDR; See a demo link:https://2-106556484-gh.circle-artifacts.com/0/home/circleci/docs/_preview/aerogear/latest/admin/about-admin-guide.html#[doc set].
+
 Everyone should be able to contribute to aerogear.org docs with ease and effectiveness, regardless of the scope of their proposed change.
 At the moment, changes are difficult to author and manage, and we hope to extend the site to include mobile.next and feedhenry material.
 This proposal includes using asciibinder and a modular approach to documentation to help us deliver high quality documentation to enable the community use AeroGear software.
 
-== Current Situation
+== Problem Description
 
 * Multiple navigation paths - there are many ways to navigate to a document, and not all give a positive experience, eg https://aerogear.org/docs/
 * Authoring requires rvm for preview, reducing contributions
@@ -14,7 +16,9 @@ This proposal includes using asciibinder and a modular approach to documentation
 * Stale content
 * Not much versioning - "As a developer I want to view the docs for a component I downloaded last year"
 
-== Asciibinder
+== Proposed Solution
+
+=== Asciibinder
 
 link:http://asciibinder.org/[Asciibinder] is used by some OSS projects for example:
 
@@ -26,7 +30,7 @@ It uses asciidoc formatting, which is required for RH official documentation. No
 
 "AsciiBinder is for documenting versioned, interrelated projects, producing different distributions of the docs as required."
 
-== Modular documentation
+=== Modular documentation
 
 NOTE: This should not be confused with link:https://redhat-documentation.github.io/modular-docs/[RH Modular Docs initiative].
 
@@ -35,7 +39,7 @@ Aerogear will consist of many components that have version specific documentatio
 . Documentation for a versioned feature is authored in it's own repo. Note that this could be a code repo, or a wiki repo.
 . Documentation for all features is gathered as late as possible for publication on aerogear.org.
 
-== Demo
+=== Demo
 
 This demo uses github and circleci, fork and build as required. 
 
@@ -67,7 +71,7 @@ Note the mechanism for automatic assembly is just `npm install`:
 ----
 ====
 
-== Search
+=== Search
 
 A trivial approach to making AeroGear docs discoverable would be to link:https://support.google.com/customsearch/answer/2630963[create a custom search engine] targeting a url pattern such as aerogear.org/docs
 
@@ -81,7 +85,7 @@ This could then be extended to provide powerful search if we decide to publish p
    },
    "sync-docs-1.2.0": "git@github.com:finp/sync-docs.git#1.1.0"
    }
-----   
+----
 
 This would publish a doc set combined with a custom engine that would allow users to search all versions of sync docs. 
 
