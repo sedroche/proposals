@@ -57,3 +57,9 @@ This solution can be used in the following situations:
 
 An example of both these approaches was progressed in https://github.com/aerogearcatalog/prometheus-apb/blob/51cdd00f1c562537c72cbeb298a0c3fb00d321b8/roles/provision-prometheus-apb/tasks/main.yml
 This example used [OAuth Proxy](https://github.com/openshift/oauth-proxy). The proxy presents the User with an OAuth flow for OpenShift users to login. The proxy can be configured to protect certain (or all) endpoints in the upstream service. It can also be configured to do a SubjectAccessReview (SAR) to ensure the user has certain permissions e.g. can a user 'view' 'Services' in the current namespace.
+
+#### Option 4: Use Keycloak Security Proxy
+
+Related to Option 1 & Option 3. This approach can be used in situations when a Keycloak or OIDC library can't be used in the underylying Service being protected. The Keycloak [Security Proxy](http://www.keycloak.org/docs/latest/server_installation/index.html#_proxy) can be placed in front of the Service. URL filters can be setup to be protect certain endpoints with a Login or Bearer token authentication, similar to the OAuth Proxy in Option 3. Keycloak can be configured to use 'Identity Brokering', like in Option 1 to allow authenticating with your OpenShift User.
+
+A concern with this approach is the [resource overhead](http://www.keycloak.org/docs/latest/server_installation/index.html#system-requirements) for running Keycloak, particularly when developers are evaluating Mobile Services in an environment like OpenShift Online.
