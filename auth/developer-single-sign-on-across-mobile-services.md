@@ -38,17 +38,17 @@ For cases where no auth mechanism is provided with a service, a reverse proxy ap
 
 Choosing how to integrate a Service with OpenShift OAuth will depend on what the Service is capable of already, and how extensible it is. The below options show practical examples of how this integration was done. There will likely be tweaks and other options required depending on the service. These options serve as references for how it could be done.
 
-#### Option 1: Configure OAuth in the Service
+#### Option 1: OAuth Configuration/Brokering
 
 If a Service has the ability to integrate with an OAuth provider, use it. For example, in Keycloak it is possible to use 'Identity Brokering' to defer to OpenShift Auth for who can administer that Keycloak instance. See this [Keycloak Identity Brokering Blog Post](https://developers.redhat.com/blog/2017/12/06/keycloak-identity-brokering-openshift/) for details.
 
 However, with Keycloak this method is limited to only automatically setting up the initial permissions of *all* users who can successfully authenticate. There is no permissions mapping between OpenShift roles & Keycloak administration roles. Additionally, *any* OpenShift user will be able to sign in to Keycloak. Manual configuration is required to only allow certain users access and limit their roles.
 
-#### Option 2: Use a plugin for OAuth
+#### Option 2: OAuth plugin
 
 If a Service allows plugins, it may be possible to use a plugin for auth. For example, the [Jenkins OpenShift Login Plugin](https://github.com/openshift/jenkins-openshift-login-plugin#openshift-login) allows OpenShift users to login to Jenkins via an OAuth flow. The plugin syncs and maps the users permissions in OpenShift to Jenkins permissions. The plugin can be configured to only authorise users who have read or edit access to the same namespace as where Jenkins is deployed.
 
-#### Option 3: Add a reverse proxy
+#### Option 3: OAuth Proxy
 
 This solution can be used in the following situations:
 
@@ -58,8 +58,18 @@ This solution can be used in the following situations:
 An example of both these approaches was progressed in https://github.com/aerogearcatalog/prometheus-apb/blob/51cdd00f1c562537c72cbeb298a0c3fb00d321b8/roles/provision-prometheus-apb/tasks/main.yml
 This example used [OAuth Proxy](https://github.com/openshift/oauth-proxy). The proxy presents the User with an OAuth flow for OpenShift users to login. The proxy can be configured to protect certain (or all) endpoints in the upstream service. It can also be configured to do a SubjectAccessReview (SAR) to ensure the user has certain permissions e.g. can a user 'view' 'Services' in the current namespace.
 
-#### Option 4: Use Keycloak Security Proxy
+#### Option 4: Keycloak Security Proxy
 
 Related to Option 1 & Option 3. This approach can be used in situations when a Keycloak or OIDC library can't be used in the underylying Service being protected. The Keycloak [Security Proxy](http://www.keycloak.org/docs/latest/server_installation/index.html#_proxy) can be placed in front of the Service. URL filters can be setup to be protect certain endpoints with a Login or Bearer token authentication, similar to the OAuth Proxy in Option 3. Keycloak can be configured to use 'Identity Brokering', like in Option 1 to allow authenticating with your OpenShift User.
 
 A concern with this approach is the [resource overhead](http://www.keycloak.org/docs/latest/server_installation/index.html#system-requirements) for running Keycloak, particularly when developers are evaluating Mobile Services in an environment like OpenShift Online.
+
+### Options in use, and Future Services
+
+The following Single Sign-On options have been chosen for Services already:
+
+* Metrics (Prometheus/Grafana) - Option 3: OAuth Proxy
+* Build Farm (Jenkins) - Option 2: OAuth plugin
+* Keycloak - Option 1: OAuth Configuration/Brokering
+
+Decisions for Future Services will depend on what the Service is, what auth it provides out of the box (if any), difficulty of each option & any exisiting examples available. Some Services may not require Single Sign-on if there is no administrative dashboard.
