@@ -7,6 +7,9 @@ Everyone should be able to contribute to aerogear.org docs with ease and effecti
 At the moment, changes are difficult to author and manage, and we hope to extend the site to include mobile.next and feedhenry material.
 This proposal includes using asciibinder and a modular approach to documentation to help us deliver high quality documentation to enable the community use AeroGear software.
 
+
+image::proposal.png[]
+
 == Problem Description
 
 * Multiple navigation paths - there are many ways to navigate to a document, and not all give a positive experience, eg https://aerogear.org/docs/
@@ -15,6 +18,7 @@ This proposal includes using asciibinder and a modular approach to documentation
 * Asciidoc is used, but not a standard way
 * Stale content
 * Not much versioning - "As a developer I want to view the docs for a component I downloaded last year"
+* Documentation for a feature (or service) can be fragmented and difficult to contribute to.
 
 == Proposed Solution
 
@@ -32,12 +36,30 @@ It uses asciidoc formatting, which is required for RH official documentation. No
 
 === Modular documentation
 
-NOTE: This should not be confused with link:https://redhat-documentation.github.io/modular-docs/[RH Modular Docs initiative].
 
-Aerogear will consist of many components that have version specific documentation. Aerogear.org is where all that documentation will be published, however we want to make the process of contributing and publishing as easy as possible by:
+Aerogear will consist of many components (services) that have version specific documentation. Aerogear.org is where all that documentation will be published, however we want to make the process of contributing and publishing as easy as possible by:
 
-. Documentation for a versioned feature is authored in it's own repo. Note that this could be a code repo, or a wiki repo.
-. Documentation for all features is gathered as late as possible for publication on aerogear.org.
+. Documentation for a versioned service is authored in it's own repo. 
+. Documentation for all services is gathered as late as possible for publication on aerogear.org.
+
+A repo for docs corresponding to each service is required because:
+
+* it corresponds with end user's expectation: "As a developer I want to include sync in my app, well there's a docs repo for that".
+* it makes it easier to contribute (where would I update if I wanted to write some conceptual doc about sync?)
+* it makes it easier to track (docs have limited resources and would not need to filter code change history)
+* it makes it easier to version (see versioning proposal from Wei and Chris, which should include proposal about automatic tagging of docs repo when code repo is tagged).
+
+
+[NOTE]
+====
+This compliments the link:https://redhat-documentation.github.io/modular-docs/[RH Modular Docs initiative], which can be summarized as follows wrt Mobile.next:
+
+* Concepts - Diagrams and text introducing the terminology and features of MC and Services.
+* Procedures - How to get started with using mobile services in your application development - for example, how to integrate sync into your iOS app.
+* Reference - API documentation for SDKs and Backends integrated into <service>-docs repo as per raincatcher.
+* Assemblies - Pulling together all the documentation for a Mobile service. 
+
+====
 
 === Demo
 
