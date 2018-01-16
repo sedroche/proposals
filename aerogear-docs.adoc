@@ -34,6 +34,8 @@ It uses asciidoc formatting, which is required for RH official documentation. No
 
 "AsciiBinder is for documenting versioned, interrelated projects, producing different distributions of the docs as required."
 
+NOTE: As discussed with OSAS, the optimal solution is to host documentation at docs.aerogear.org, leaving the existing website in situ. This provides a location for non-docs material, eg blogs.
+
 === Modular documentation
 
 
