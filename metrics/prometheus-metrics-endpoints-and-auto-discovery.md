@@ -96,15 +96,35 @@ org.aerogear.metrics/ssl_endpoint: /rest/metrics
 
 Grafana will be made available as part of provisioning Metrics. Developers will be free to add their own Dashboards.
 
-It is possible to store Dashboards in a ConfigMap that gets mounted into the Grafana container
-e.g. https://github.com/aerogearcatalog/prometheus-apb/blob/ee86cfc67caaeaabcf7e7bc214c3a6dc6940c333/roles/provision-prometheus-apb/tasks/main.yml#L30-L33. These dashboards will be picked up in Grafana by setting the path to the mounted ConfigMap resource. e.g.
+The 5.x stream of Grafana has the ability to load dashboards from disk and update the dashboards when the files on disk are also updated. This is possible using something called a provider. A provider is a configuration item that tells Grafana how and where to load dashboards. The idea is in the future Grafana may have different providers for loading dashboards from disk, source control, via an API, etc.
+
+In the grafana `.ini` file, a provisioning path is configured:
 
 ```ini
-[paths]
-datasources = /etc/grafana-datasources
+provisioning = /etc/grafana/conf/provisioning
 ```
 
-*NOTE:* This approach for making default dashboards available will be used until such a time as a more automated discovery of dashboards is determined. For example, is it possible to store the dashboard defininition with the Service that has metrics available e.g. Keycloak, and then make it show up in Grafana.
+The `provisioning` directory contains two subdirectories:
+
+* `datasources` - A directory with datasource definition files.
+* `dashboards` - A directory with dashboard providers. (Not the actual dashboard definitions)
+
+In the `dashboards` directory we will have a provider that looks like this:
+
+```yaml
+- name: 'default'
+  org_id: 1
+  folder: ''
+  type: file
+  options:
+    path: /etc/grafana-dashboards
+```
+
+This file instructs Grafana to search for dashboard definitions in `/etc/grafana-dashboards`. Dashboard files can be inserted and modified at any time and the changes will be reflected in Grafana.
+
+This approach allows us to load the datasources, dashboard providers and dashboard definitions using Config Maps. Dashboard definitions for individual mobile enabled services can be defined in their respective APBs. As part of the provision, the APB can append or update the dashboard in the dashboards Config Map.
+
+One question arising from this approach is 'What if downstream users want to define their own dashboards and have them discovered?' Allowing users to pollute the Config Map that also stores the upstream service dashboards is not a good approach. To mitigate this, we could configure Grafana to scan another directory e.g. `user-dashboards`, allowing user dashboards to be stored and discovered in a separate Config Map.
 
 ### Auth
 
