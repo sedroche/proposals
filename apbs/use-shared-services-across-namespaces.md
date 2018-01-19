@@ -1,11 +1,11 @@
 # Abstract
 
-APBs for resource intensive services should be programmed to re-use the service that they would otherwise deploy, if that service is already deployed and available in another namespace.
+When a service is suitable for sharing across namespaces and already deployed and available in another namespace, the APB for deploying those services should be programmed to re-use the service that is available rather than deploying another instance of it.
 
 ## Terms
 
 - APB ([ansible playbook bundle](https://docs.openshift.org/latest/apb_devel/index.html))
-- Shared Service: A service that is used across multiple namespaces
+- Shared Service: A service that may be across multiple namespaces
 - System Resources: CPU or memory
 - Namespace / Project: These refer to the same thing and may be used interchangably.
 - apb.yml: ([APB spec file](https://docs.openshift.org/latest/apb_devel/writing/reference.html#apb-devel-writing-ref-spec)) Configures the inputs passed to an APB prior to deployment.
@@ -14,7 +14,7 @@ APBs for resource intensive services should be programmed to re-use the service 
 
 Some of the services used in the development of a mobile application can require quite a lot of system resources which could turn into a factor that limits adoption of the Mobile Platform.
 
-For example, if multiple developers are building a product which requires KeyCloak, and they do not have the resources available to run a seperate KeyCloak instance in each developers project, there is currently no convenient way for all of these developers to develop their application using a single instance of KeyCloak.
+For example, if multiple developers are building a product which requires an Authentication Service, and they do not have the resources available to run a seperate instance of an Authentication Service in each developers project, there is currently no convenient way for all of these developers to develop their application using a single shared Authentication Service.
 
 ## Goals
 
@@ -34,7 +34,7 @@ For services that are suited to being shared services (such as KeyCloak), we can
 Example:
 ![Image of KeyCloak APB config screen with shared service fields](./images/shared-services-config.png)
 
-In this example, if the `Host of existing KeyCloak service` were left empty then a new service would be installed. However if this field were populated the APB would connect to the host with the provided auth details and create a configuration as required.
+In this example, if the `Host of existing KeyCloak service` were left empty then a new service would be installed. However if this field were populated the APB would connect to the host with the provided auth details and then complete the APB as usual using this existing shared Service.
 
 Once the shared service has been configured via the APB, the APB will then expose these configuration details to the current namespace in it's usual manner (i.e. config-map, secret, etc).
 
