@@ -59,7 +59,7 @@ Mobile-cli should have option to create `mobile-services.json` file in specified
   "name": "string",
   "type": "string",
   "url": "string",
-  "metadata": "array"
+  "metadata": "object"
 
 }
 
