@@ -15,16 +15,19 @@ Based on: https://groups.google.com/forum/#!topic/aerogear/pNmVTy0saDA
 
 org.aerogear.android.ags.core - AeroGear Services Core
 
+Service example:
 org.aerogear.android.ags.sync - AeroGear Services Sync
 
 ### IOS:
 
 AeroGear/AgsCore
 
-AeroGear/AgsSync etc.
+Service example:
+AeroGear/AgsSync 
 
 ### Node/Javascript
 
 @aerogear/ags-core
 
-@aerogear/ags-sync etc.
+Service example:
+@aerogear/ags-sync
