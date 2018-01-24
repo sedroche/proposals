@@ -44,6 +44,7 @@ Mobile-cli should have option to create `mobile-services.json` file in specified
 ### Json format specific
 
 #### Top level object
+
 ```json
 {
  "version" : "number",
@@ -54,12 +55,12 @@ Mobile-cli should have option to create `mobile-services.json` file in specified
 
 ### Service object
 
+```json
 {
   "id": "string",
   "name": "string",
   "type": "string",
   "url": "string",
   "metadata": "object"
-
 }
-
+```
