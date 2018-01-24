@@ -48,7 +48,7 @@ Mobile-cli should have option to create `mobile-services.json` file in specified
 ```json
 {
  "version" : "number",
- "serverUrl" : "string" 
+ "serverUrl" : "string",
  "namespace": "string",
  "services": { "type": "array", "items":"Service"}
 }
