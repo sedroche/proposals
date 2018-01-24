@@ -13,9 +13,9 @@ Based on: https://groups.google.com/forum/#!topic/aerogear/pNmVTy0saDA
 
 ### Android:
 
-org.aerogear.ags.android.core - AeroGear Services Core
+org.aerogear.android.ags.core - AeroGear Services Core
 
-org.aerogear.ags.android.sync - AeroGear Services Sync
+org.aerogear.android.ags.sync - AeroGear Services Sync
 
 ### IOS:
 
