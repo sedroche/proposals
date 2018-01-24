@@ -1,6 +1,6 @@
 # Abstract
 
-This document contains the proposal for gathering metrics on system events for running Mobile Apps and making them available to developers.
+This document contains the proposal for gathering metrics on system statistics for running Mobile Apps and making them available to developers.
 
 ## Goals
 
@@ -18,7 +18,7 @@ This document contains the proposal for gathering metrics on system events for r
 
 - Identify individual devices or users in metrics events
 
-- Registering of user-defined metrics metrics
+- Registering of user-defined metrics and logs
 
 ## Terms
 
@@ -26,7 +26,7 @@ For a list of terms used in this document, see [Glossary](./glossary.md).
 
 ## Problem Description
 
-As mobile applications become more successful, system metrics data becomes invaluable for developers to observe the landscape of application installations and make sure further development and deployment of backend services will not affect users.
+As Mobile Apps are developed, improved and iterated on, different versions of those Apps can be used on many different devices. System metrics data becomes invaluable for developers to observe the landscape of application installations and make sure further development and deployment of backend services will not affect users.
 
 ## Proposed Solution
 
@@ -68,61 +68,32 @@ Compared to mobile applications interfacing directly with the Storage service, t
 
 - Types of gathered metrics can become a subset of the underlying Storage's full range of types.
 
-<!-- TODO: mention logstash, fluentd -->
+#### HTTP Endpoints
+
+At a PoC level, the endpoints available from the Mobile Metrics Service should be:
+
+`POST /sdk-version`
+
+Receives `Content-Type: application/json` containing the SDK Version and a clientID that should be called from the SDK initialization process. A timestamp can be generated server-side.
+
+### Authentication for the Mobile Metrics Service
+
+The HTTP endpoints for the Mobile Metrics Service is going to be accessbile only via HTTPS to devices that provide an authentication header containing an appropriate API Key.
+
+This key will be acessible to the SDK via new fields in the generated `mobile-services.json` from the mobile CLI.
 
 ### Storage
 
-The Storage service will store metrics data forwarded from the Mobile Metrics Service. Its implementation can be supplied by the following projects:
+The Storage service will store metrics data forwarded from the Mobile Metrics Service.
 
-#### Prometheus
+The requirements and preferences for the selected implementation are as follows:
 
-##### Pros
+- Serve as a long-term storage for the back-end metrics Prometheus instance
+- Be able to become a Data Source for Grafana in order to avoid a separate visualisation layer
+- Low enough resource usage in order to run in low-powered "evaluation" OpenShift clusters.
+- Flexibility in metrics types for future-proofing
 
-- Shared service with backend metrics
-- Requires an additional service for long-term metrics storage
-
-##### Cons
-
-- Data model is time-series exclusive
-- Pull-based data gathering
-
-#### ElasticSearch
-
-##### Pros
-
-- High advertised performance
-- Highest variety of data types and modelling (supports time series data and non-time series data)
-- Rich querying possibilities
-
-##### Cons
-
-- High minimum resource requirements (over evaluation-sized clusters)
-
-#### MongoDB
-
-##### Pros
-
-- Supports time series data and non-time series data
-
-##### Cons
-
-- Support for time series data is not native thus needs modeling work
-- Grafana/Kibana cannot talk to MongoDB without ugly workarounds
-- We can't go with the approach Prometheus storing data in MongoDB since it is not supported
-
-#### InfluxDB
-
-##### Pros
-
-- Long-term storage adapter for Prometheus
-- HTTP-based API for push-based metrics gathering
-- Flexible querying with direct comparison to SQL
-
-##### Cons
-
-- Focused on time-series data
-- No clustering support in OSS offering
-- Medium-sized minimum resource requirements
+After spiking various solutions the final decision was to go with {SOLUTION}, see [Spike: Mobile app level and SDK level metrics](https://issues.jboss.org/browse/AEROGEAR-1894).
 
 ### Querying and Data Visualisation
 
@@ -130,6 +101,8 @@ The Querying and Visualization service will be supplied by Grafana, which can ut
 
 User interface familiarity is an important factor for developers that use the overall metrics service, so addition of other visualisation tools like Kibana that would increase the learning curve of the solution should be avoided.
 
-#### Authentication
+In order to support additional chart types (i.e. pie charts for SDK version distribution) the Grafana instance will be incremented with visualisation plugins added during provisioning as opposed to creating a new derived container image.
+
+#### Authentication For the Data Visualisation UI
 
 As shared with the backend metrics service, Grafana's service will be behind OpenShift's [OAuth Proxy](https://github.com/openshift/oauth-proxy) that will pick up the permissions of the user's OpenShift cluster credentials.
