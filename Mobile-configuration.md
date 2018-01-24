@@ -25,7 +25,7 @@ Configuration also exposes some internal fields.
 ```
 
 Most important parameters often have different names. For example some services contain `url` property and some `uri`.
-Service specific metadata prevents us from stric json parsing.
+Service specific metadata prevents us from strict json parsing.
 
 ## Expectations
 
