@@ -20,8 +20,10 @@ For example, if multiple developers are building a product which requires an Aut
 ## Goals
 
 - A convenient way for the developer to tell the platform about an existing deployment of the service he is about to deploy.
-- The APB for a shared service automatically connecting to the shared service in another namespace, using the provided details.
-- The APB for a shared service automatically configuring the shared service in another namespace and exposing the configuration details to the current namespace.
+- The APB for a connected service automatically connecting to a shared service in another namespace, using the provided details.
+- The APB for a connected service automatically configuring a shared service in another namespace and exposing the configuration details to the current namespace.
+- The APB for a connected service configuring the shared service during a bind operation.
+- The APB for a connected service deconfiguring the shared service during an unbind operation.
 
 ## Non-Goals
 
@@ -52,7 +54,9 @@ When running a deprovision of Connected Service, the APB should clear up it's ow
 
 For example, in namespace-a the KeyCloak APB would have connected to KeyCloak in namespace-b and created a realm, a client, and a bearer-client. This realm and users should be removed from KeyCloak in namespace-b and the secret they are stored in, in namespace-a. Keycloak in namespace-b will still be running when this is completed.
 
-When deprovisioning a Shared Service the service should be removed whether or not there are still existing Connected Services.
+When the deprovision is being executed in the namespace that the Shared Service is deployed into, then all of the resources for that shared service should be removed.
+
+For example, in namespace-a the KeyCloak service is running and in namespace-b there is a connected service for keycloak. When running the deprovision for the KeyCloak in namespace-a the service and all of it's resource will be deleted from namespace-a even though there is still a connected service in namespace-b for this keycloak.
 
 ### Bind / Unbind
 
