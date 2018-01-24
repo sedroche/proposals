@@ -91,7 +91,7 @@ The Storage service will store metrics data forwarded from the Mobile Metrics Se
 ##### Pros
 
 - High advertised performance
-- Highest variety of data types and modelling
+- Highest variety of data types and modelling (supports time series data and non-time series data)
 - Rich querying possibilities
 
 ##### Cons
@@ -100,11 +100,15 @@ The Storage service will store metrics data forwarded from the Mobile Metrics Se
 
 #### MongoDB
 
-<!-- TODO -->
-
 ##### Pros
 
+- Supports time series data and non-time series data
+
 ##### Cons
+
+- Support for time series data is not native thus needs modeling work
+- Grafana/Kibana cannot talk to MongoDB without ugly workarounds
+- We can't go with the approach Prometheus storing data in MongoDB since it is not supported
 
 #### InfluxDB
 
