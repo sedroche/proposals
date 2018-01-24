@@ -2,7 +2,7 @@
 
 ## Introduction
 
-When generating 
+Introduce standard for system interoperability, by providing schemas that will be used to communicate between mobile sdk's and core services.
 
 ## Problem Description
 
