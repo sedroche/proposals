@@ -1,18 +1,19 @@
 # Abstract
 
-When a service is suitable for sharing across namespaces and already deployed and available in another namespace, the APB for deploying those services should be programmed to re-use the service that is available rather than deploying another instance of it.
+When a service is suitable for sharing across namespaces and already deployed and available in some manner, the APB for deploying those services should be programmed to re-use the service that is available rather than deploying another instance of it. The service is not required to be running in OpenShift.
 
 ## Terms
 
 - APB ([ansible playbook bundle](https://docs.openshift.org/latest/apb_devel/index.html))
-- Shared Service: A service that may be across multiple namespaces
+- Shared Service: A running instance of a service that may be used across multiple namespaces
+- Connected Service: The result of running an APB in a seperate namespace to configure a shared service
 - System Resources: CPU or memory
 - Namespace / Project: These refer to the same thing and may be used interchangably.
 - apb.yml: ([APB spec file](https://docs.openshift.org/latest/apb_devel/writing/reference.html#apb-devel-writing-ref-spec)) Configures the inputs passed to an APB prior to deployment.
 
 ## Problem Description
 
-Some of the services used in the development of a mobile application can require quite a lot of system resources which could turn into a factor that limits adoption of the Mobile Platform.
+Some of the services used in the development of a mobile application can require quite a lot of system resources which could turn into a factor that limits adoption of the Mobile Services.
 
 For example, if multiple developers are building a product which requires an Authentication Service, and they do not have the resources available to run a seperate instance of an Authentication Service in each developers project, there is currently no convenient way for all of these developers to develop their application using a single shared Authentication Service.
 
@@ -29,6 +30,7 @@ For example, if multiple developers are building a product which requires an Aut
 
 ## Proposed Solution
 
+### Provision
 For services that are suited to being shared services (such as KeyCloak), we can make a change the apb.yml, allowing the developer to specify connection details for an already existing instance of the service this APB would otherwise deploy.
 
 Example:
@@ -38,17 +40,31 @@ In this example, if the `Host of existing KeyCloak service` were left empty then
 
 Once the shared service has been configured via the APB, the APB will then expose these configuration details to the current namespace in it's usual manner (i.e. config-map, secret, etc).
 
-Should the APB be unable to connect to the supplied Shared Service details then the APB should exit with a failure status and report the problem in a way that will make trouble-shooting as convenient as possible for the developer.
+If the APB is unable to connect to the supplied Shared Service details then the APB should exit with a failure status and report the problem in a way that will make trouble-shooting as convenient as possible for the developer.
 
 Most, if not all, of this work will be executed inside the APB logic for services deemed suitable for conversion to a Shared Service. Possible candidates for this work are listed below, but this list is not final:
 - KeyCloak
 - UPS
 - Build Farm
 
+### Deprovision
+When running a deprovision of Connected Service, the APB should clear up it's own configuration from the shared service, but should not deprovision the shared service.
+
+For example, in namespace-a the KeyCloak APB would have connected to KeyCloak in namespace-b and created a realm, a client, and a bearer-client. This realm and users should be removed from KeyCloak in namespace-b and the secret they are stored in, in namespace-a. Keycloak in namespace-b will still be running when this is completed.
+
+When deprovisioning a Shared Service the service should be removed whether or not there are still existing Connected Services.
+
+### Bind / Unbind
+
+When running a bind, the APB should connect to the shared service and do any necessary configuration, however the parameters provided during provision are [not made available to the bind/unbind playbooks currently](https://github.com/openshift/ansible-service-broker/issues/530), so to have access to these the simplest solution at the moment is to store them in a secret where you can access them during the bind/unbind playbook.
+
+The unbind playbook should remove any configuration that was create in the Shared Service during binding.
+
+### Upgrade
+
+Upgrades of services using APBs is unlikely to be affected by this feature.
+
 ### Potential Difficulties
 
 #### Cluttered Configuration Screen
 The form for configuring the shared service via the APB could start looking quite busy with the extra inputs, an ideal solution to this would be fields that display conditionally with a check-box like "This is a shared service" which would hide the deploy options and instead display the shared service options, at the moment this is not possible, but having contacted the ASB team they have informed that it is on their roadmap.
-
-#### Unclear Failures
-Currently, when an APB fails to deploy, the error can be quite hard to find (you need to look at the APB pod logs in the APB specific namespace - which might not be visible to the currently logged in user)
